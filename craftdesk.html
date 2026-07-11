@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Craftdesk — Online Photo Editor, Background Remover &amp; Video Editor</title>
+<meta name="description" content="Craftdesk is a browser based editing suite for offices and teams. Remove backgrounds, edit photos, trim videos and convert files in seconds. No install, no upload to any server.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#14213D">
+<link rel="canonical" href="https://www.craftdesk.app/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Craftdesk">
+<meta property="og:title" content="Craftdesk — Online Photo Editor, Background Remover & Video Editor">
+<meta property="og:description" content="Remove backgrounds, edit photos, trim videos and convert files, right in your browser. Built for offices and teams.">
+<meta property="og:url" content="https://www.craftdesk.app/">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Craftdesk — Online Photo Editor, Background Remover & Video Editor">
+<meta name="twitter:description" content="Remove backgrounds, edit photos, trim videos and convert files, right in your browser. Built for offices and teams.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2314213D'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Arial' font-weight='700' fill='%230F9E93' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Craftdesk",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any (runs in a web browser)",
+  "description": "A browser based editing suite for offices and teams: background remover, photo editor, video editor and file converter.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Background remover for product photos and headshots",
+    "Photo editor with cropping, filters and annotations",
+    "Video editor with trimming and captions",
+    "Image format converter between JPG, PNG and WEBP",
+    "Audio to WAV converter"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Craftdesk free to use for business?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every tool on Craftdesk runs directly in your browser at no cost, with no account or subscription required."}
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to install any software?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. Craftdesk works entirely in a modern web browser such as Chrome or Edge, with nothing to download or install."}
+    },
+    {
+      "@type": "Question",
+      "name": "Are my files uploaded to a server?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. Photos, videos and audio files are processed locally on your device and are never sent to an external server."}
+    },
+    {
+      "@type": "Question",
+      "name": "Which file formats does Craftdesk support?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Craftdesk works with common image formats such as JPG, PNG and WEBP, most browser supported video formats, and audio files that convert to WAV."}
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#14213D;
+  --navy-light:#1E2E52;
+  --teal:#0F9E93;
+  --amber:#F2A93B;
+  --slate:#4B5567;
+  --line:#E2E5EE;
+  --paper:#F6F7FB;
+  --card:#FFFFFF;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--navy);
+  line-height:1.6;
+}
+h1,h2,h3,.brand{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  margin:0 0 .45em 0;
+  letter-spacing:-0.01em;
+}
+p{margin:0 0 1em 0; color:var(--slate);}
+a{color:inherit;}
+img{max-width:100%;}
+button, input, select{font-family:inherit;}
+
+:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
+.visually-hidden{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+
+/* ---------- Layout shell ---------- */
+.page{display:none; padding:36px 6vw 70px; max-width:1240px; margin:0 auto;}
+.page.active{display:block; animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+@media (prefers-reduced-motion:reduce){ .page.active{animation:none;} }
+
+header.topbar{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 6vw;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex; align-items:center; gap:10px; font-size:1.25rem; color:var(--navy); cursor:pointer; border:none; background:none; padding:0;}
+.brand-mark{
+  width:38px; height:38px; border-radius:10px;
+  background:var(--navy);
+  display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; color:var(--teal);
+  font-family:'Sora',sans-serif;
+}
+nav.tabs{display:flex; gap:4px; flex-wrap:wrap;}
+nav.tabs button{
+  border:none; background:transparent; padding:10px 16px;
+  border-radius:8px; font-weight:600; font-size:.92rem; cursor:pointer;
+  color:var(--slate); transition:background .18s, color .18s;
+}
+nav.tabs button:hover{background:var(--paper); color:var(--navy);}
+nav.tabs button.active{background:var(--navy); color:#fff;}
+
+footer{
+  padding:44px 6vw 50px; color:var(--slate); font-size:.9rem;
+  border-top:1px solid var(--line); background:#fff;
+}
+.footer-grid{display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; max-width:1240px; margin:0 auto;}
+.footer-links{display:flex; gap:22px; flex-wrap:wrap;}
+.footer-links a, .footer-links button{background:none; border:none; padding:0; cursor:pointer; color:var(--slate); font-size:.9rem; font-weight:600;}
+.footer-links a:hover, .footer-links button:hover{color:var(--teal);}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  border:none; border-radius:9px; padding:13px 24px;
+  font-weight:700; font-size:.96rem; cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn:hover{opacity:.92;}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--teal); color:#fff;}
+.btn-navy{background:var(--navy); color:#fff;}
+.btn-amber{background:var(--amber); color:var(--navy);}
+.btn-ghost{background:#fff; color:var(--navy); box-shadow:0 0 0 1.5px var(--line) inset;}
+.btn[disabled]{opacity:.45; cursor:not-allowed;}
+
+/* ---------- Home ---------- */
+.hero{
+  display:flex; align-items:center; gap:5vw; flex-wrap:wrap;
+  padding:56px 0 30px;
+}
+.hero-text{flex:1 1 440px;}
+.eyebrow{
+  display:inline-block; font-weight:700; font-size:.8rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--teal); background:#0F9E9315; padding:6px 12px; border-radius:999px; margin-bottom:16px;
+}
+.hero-text h1{font-size:clamp(2.1rem,3.6vw,3rem); line-height:1.12; color:var(--navy);}
+.hero-text .lead{font-size:1.08rem; max-width:520px;}
+
+.mockup{
+  flex:1 1 380px; background:var(--navy); border-radius:16px; padding:14px;
+  box-shadow:0 30px 60px -24px #14213D55;
+}
+.mockup-bar{display:flex; gap:6px; padding:4px 6px 14px;}
+.mockup-dot{width:10px; height:10px; border-radius:50%; background:#ffffff30;}
+.mockup-body{
+  background:#1E2E52; border-radius:10px; padding:20px; display:flex; gap:16px;
+}
+.mockup-side{width:70px; display:flex; flex-direction:column; gap:10px;}
+.mockup-icon{
+  width:36px; height:36px; border-radius:8px; background:#ffffff12;
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+}
+.mockup-icon.active{background:var(--teal);}
+.mockup-canvas{
+  flex:1; background:linear-gradient(135deg,#2A3E6B,#1E2E52); border-radius:10px; min-height:220px;
+  display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+}
+.mockup-subject{
+  width:56%; aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #F2A93B, #C97A1C);
+  outline:2px dashed #ffffff90; outline-offset:8px;
+}
+
+.trust-row{display:flex; gap:26px; flex-wrap:wrap; margin-top:36px; color:var(--slate); font-size:.88rem; font-weight:600;}
+.trust-row span{display:flex; align-items:center; gap:8px;}
+
+.tool-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px; margin-top:30px;
+}
+.tool-card{
+  background:var(--card); border-radius:var(--radius); padding:26px;
+  box-shadow:0 1px 0 var(--line);
+  border:1px solid var(--line);
+  cursor:pointer; transition:transform .16s ease, box-shadow .16s ease; text-align:left;
+  width:100%;
+}
+.tool-card:hover{transform:translateY(-4px); box-shadow:0 14px 30px -18px #14213D40;}
+.tool-card .icon{
+  width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:22px; background:var(--accent,var(--teal)); color:#fff; margin-bottom:16px;
+}
+.tool-card h3{font-size:1.1rem; color:var(--navy);}
+.tool-card p{color:var(--slate); font-size:.92rem; margin-bottom:0;}
+
+.section-heading{max-width:640px; margin-top:56px;}
+.section-heading h2{font-size:1.6rem; color:var(--navy);}
+
+.steps{display:flex; gap:18px; flex-wrap:wrap; margin-top:20px;}
+.step{
+  flex:1 1 210px; background:#fff; border-radius:var(--radius); padding:20px;
+  border:1px solid var(--line);
+}
+.step .num{
+  width:30px; height:30px; border-radius:8px; background:var(--navy); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px; font-size:.9rem;
+}
+.step h3{font-size:1rem; color:var(--navy);}
+.step p{font-size:.9rem; margin-bottom:0;}
+
+.faq{max-width:760px; margin-top:20px;}
+.faq-item{border-bottom:1px solid var(--line); padding:18px 0;}
+.faq-item h3{font-size:1.02rem; color:var(--navy); margin-bottom:6px;}
+.faq-item p{margin-bottom:0; font-size:.94rem;}
+
+/* ---------- Tool page shared ---------- */
+.tool-header{display:flex; align-items:center; gap:14px; margin-bottom:6px;}
+.tool-header .icon{
+  width:46px; height:46px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:22px; color:#fff; background:var(--accent,var(--teal)); flex:none;
+}
+.tool-header h1{font-size:1.7rem; margin:0; color:var(--navy);}
+.subtitle{color:var(--slate); max-width:660px; margin-bottom:6px;}
+.workspace{
+  display:grid; grid-template-columns:1.4fr 1fr; gap:24px; margin-top:26px;
+}
+@media (max-width:900px){ .workspace{grid-template-columns:1fr;} }
+.canvas-card{
+  background:#fff; border-radius:var(--radius); padding:20px; border:1px solid var(--line);
+  text-align:center; min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+}
+.canvas-card canvas, .canvas-card video{
+  max-width:100%; max-height:58vh; border-radius:10px; background:repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 20px 20px;
+  box-shadow:0 0 0 1px var(--line);
+}
+.panel{
+  background:#fff; border-radius:var(--radius); padding:22px; border:1px solid var(--line);
+  display:flex; flex-direction:column; gap:16px;
+}
+.panel h3{font-size:.98rem; margin-bottom:2px; color:var(--navy);}
+.field{display:flex; flex-direction:column; gap:6px;}
+.field label{font-weight:600; font-size:.86rem; color:var(--navy);}
+.field input[type=range]{width:100%; accent-color:var(--teal);}
+.field input[type=text], .field input[type=number], .field select{
+  padding:10px 12px; border-radius:8px; border:1.5px solid var(--line); font-size:.92rem; color:var(--navy);
+}
+.row{display:flex; gap:10px; flex-wrap:wrap;}
+.upload-btn{
+  border:1.5px dashed #9AA5C0; border-radius:10px; padding:24px;
+  text-align:center; cursor:pointer; color:var(--slate); font-weight:600;
+  background:#0F9E9308;
+}
+.upload-btn input{display:none;}
+.emoji-row{display:flex; gap:8px; flex-wrap:wrap;}
+.emoji-row button{
+  font-size:1.3rem; background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 10px; cursor:pointer;
+}
+.emoji-row button:hover{background:#EDEFF6;}
+.hint{font-size:.83rem; color:var(--slate);}
+.badge{
+  display:inline-block; background:#0F9E9315; color:var(--teal); font-weight:700;
+  padding:5px 12px; border-radius:999px; font-size:.78rem; margin-bottom:12px; letter-spacing:.02em;
+}
+
+/* Toast */
+#toast{
+  position:fixed; bottom:24px; left:50%; transform:translate(-50%,120%);
+  background:var(--navy); color:#fff; padding:13px 20px; border-radius:10px;
+  font-weight:600; font-size:.92rem; box-shadow:0 10px 24px -8px #0006; transition:transform .3s ease; z-index:200; max-width:80vw; text-align:center;
+}
+#toast.show{transform:translate(-50%,0);}
+
+.trim-track{position:relative; height:34px;}
+.trim-track input[type=range]{position:absolute; width:100%; top:6px; pointer-events:none; background:none;}
+.trim-track input[type=range]::-webkit-slider-thumb{pointer-events:auto;}
+.trim-track input[type=range]::-moz-range-thumb{pointer-events:auto;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="brand" onclick="showPage('home')" aria-label="Craftdesk home">
+    <span class="brand-mark" aria-hidden="true">C</span> Craftdesk
+  </button>
+  <nav class="tabs" aria-label="Main navigation">
+    <button data-page="home" class="active" onclick="showPage('home')">Home</button>
+    <button data-page="bgremove" onclick="showPage('bgremove')">Background Remover</button>
+    <button data-page="photoeditor" onclick="showPage('photoeditor')">Photo Editor</button>
+    <button data-page="videoeditor" onclick="showPage('videoeditor')">Video Editor</button>
+    <button data-page="converter" onclick="showPage('converter')">File Converter</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="page active" aria-labelledby="home-h1">
+  <div class="hero">
+    <div class="hero-text">
+      <span class="eyebrow">Editing suite for teams</span>
+      <h1 id="home-h1">Professional photo and video editing, right in your browser.</h1>
+      <p class="lead">Craftdesk helps offices, marketers and small businesses remove backgrounds from product photos, polish images for reports, trim video for presentations, and convert files, without installing software or uploading files to a server.</p>
+      <div class="row">
+        <button class="btn btn-primary" onclick="showPage('bgremove')">Remove a background</button>
+        <button class="btn btn-ghost" onclick="showPage('videoeditor')">Edit a video</button>
+      </div>
+      <div class="trust-row">
+        <span>🔒 Files stay on your device</span>
+        <span>⚡ No account required</span>
+        <span>🖥️ Works in any modern browser</span>
+      </div>
+    </div>
+    <div class="mockup" role="img" aria-label="Preview of the Craftdesk editing workspace with a tool sidebar and a product photo being cut out">
+      <div class="mockup-bar"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span></div>
+      <div class="mockup-body">
+        <div class="mockup-side">
+          <div class="mockup-icon active">✂️</div>
+          <div class="mockup-icon">🎚️</div>
+          <div class="mockup-icon">🔤</div>
+          <div class="mockup-icon">⬇️</div>
+        </div>
+        <div class="mockup-canvas"><div class="mockup-subject"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">
+    <h2>Tools built for everyday office work</h2>
+    <p>Each tool runs locally in your browser tab, so files never leave your computer.</p>
+  </div>
+  <div class="tool-grid">
+    <button class="tool-card tool-link" style="--accent:#0F9E93" data-page="bgremove" onclick="showPage('bgremove')">
+      <div class="icon">✂️</div>
+      <h3>Background Remover</h3>
+      <p>Clean up product photos, headshots and ID photos by removing plain or solid color backgrounds in seconds.</p>
+    </button>
+    <button class="tool-card tool-link" style="--accent:#14213D" data-page="photoeditor" onclick="showPage('photoeditor')">
+      <div class="icon">🖼️</div>
+      <h3>Photo Editor</h3>
+      <p>Adjust brightness and contrast, crop for reports and slides, and add callouts, labels or a watermark.</p>
+    </button>
+    <button class="tool-card tool-link" style="--accent:#F2A93B" data-page="videoeditor" onclick="showPage('videoeditor')">
+      <div class="icon">🎬</div>
+      <h3>Video Editor</h3>
+      <p>Trim clips for presentations and internal updates, add captions for accessibility, and export in one click.</p>
+    </button>
+    <button class="tool-card tool-link" style="--accent:#4B5567" data-page="converter" onclick="showPage('converter')">
+      <div class="icon">🔁</div>
+      <h3>File Converter</h3>
+      <p>Convert images between JPG, PNG and WEBP for web or print, and turn recordings into WAV audio files.</p>
+    </button>
+  </div>
+
+  <div class="section-heading">
+    <h2>How Craftdesk works</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><h3>Choose a tool</h3><p>Pick the editor that matches the task in front of you.</p></div>
+    <div class="step"><div class="num">2</div><h3>Add your file</h3><p>Upload a photo, video or audio recording from your device.</p></div>
+    <div class="step"><div class="num">3</div><h3>Make adjustments</h3><p>Preview changes instantly as you move sliders or add elements.</p></div>
+    <div class="step"><div class="num">4</div><h3>Export</h3><p>Download the finished file, ready to share or publish.</p></div>
+  </div>
+
+  <div class="section-heading">
+    <h2>Frequently asked questions</h2>
+  </div>
+  <div class="faq">
+    <div class="faq-item">
+      <h3>Is Craftdesk free to use for business?</h3>
+      <p>Yes. Every tool on Craftdesk runs directly in your browser at no cost, with no account or subscription required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I need to install any software?</h3>
+      <p>No. Craftdesk works entirely in a modern web browser such as Chrome or Edge, with nothing to download or install.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Are my files uploaded to a server?</h3>
+      <p>No. Photos, videos and audio files are processed locally on your device and are never sent to an external server.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Which file formats does Craftdesk support?</h3>
+      <p>Craftdesk works with common image formats such as JPG, PNG and WEBP, most browser supported video formats, and audio files that convert to WAV.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BACKGROUND REMOVER ============ -->
+<section id="bgremove" class="page" aria-labelledby="bg-h1">
+  <div class="tool-header" style="--accent:#0F9E93">
+    <div class="icon">✂️</div>
+    <h1 id="bg-h1">Background Remover</h1>
+  </div>
+  <p class="subtitle">Remove backgrounds from product photos, staff headshots and ID photos. Works best on plain or solid color backgrounds; busier backgrounds may need a second pass with the sensitivity slider.</p>
+
+  <div class="workspace">
+    <div class="canvas-card">
+      <label class="upload-btn" style="width:100%;">
+        Upload a photo (JPG or PNG)
+        <input type="file" id="bgFileInput" accept="image/*">
+      </label>
+      <canvas id="bgCanvas" style="display:none;"></canvas>
+      <p class="hint" id="bgHint">Once your photo loads, click the background you want to remove.</p>
+    </div>
+    <div class="panel">
+      <h3>1. Select the background color</h3>
+      <p class="hint">Click anywhere on the background, or let Craftdesk sample the corners automatically.</p>
+      <div class="row">
+        <button class="btn btn-ghost" id="bgAutoPick">Sample corners automatically</button>
+      </div>
+      <div class="row" id="bgColorPreviewRow" style="display:none; align-items:center;">
+        <span class="hint">Removing this color:</span>
+        <span id="bgColorSwatch" style="width:26px;height:26px;border-radius:6px;box-shadow:0 0 0 1px var(--line);"></span>
+      </div>
+
+      <h3>2. Fine tune the cutout</h3>
+      <div class="field">
+        <label for="bgTolerance">Sensitivity</label>
+        <input type="range" id="bgTolerance" min="5" max="120" value="40">
+      </div>
+      <div class="field">
+        <label for="bgFeather">Edge softness</label>
+        <input type="range" id="bgFeather" min="0" max="60" value="20">
+      </div>
+
+      <div class="row">
+        <button class="btn btn-primary" id="bgApply" disabled>Remove background</button>
+        <button class="btn btn-ghost" id="bgReset" disabled>Reset</button>
+      </div>
+      <button class="btn btn-navy" id="bgDownload" disabled>Download PNG</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHOTO EDITOR ============ -->
+<section id="photoeditor" class="page" aria-labelledby="pe-h1">
+  <div class="tool-header" style="--accent:#14213D">
+    <div class="icon">🖼️</div>
+    <h1 id="pe-h1">Photo Editor</h1>
+  </div>
+  <p class="subtitle">Adjust, crop and annotate photos for reports, slide decks and marketing pages.</p>
+
+  <div class="workspace">
+    <div class="canvas-card">
+      <label class="upload-btn" style="width:100%;">
+        Upload a photo (JPG or PNG)
+        <input type="file" id="peFileInput" accept="image/*">
+      </label>
+      <canvas id="peCanvas" style="display:none; cursor:grab;"></canvas>
+      <p class="hint">Drag labels and callouts anywhere on the photo to position them.</p>
+    </div>
+
+    <div class="panel">
+      <h3>Adjustments</h3>
+      <div class="field"><label>Brightness</label><input type="range" id="peBrightness" min="50" max="150" value="100"></div>
+      <div class="field"><label>Contrast</label><input type="range" id="peContrast" min="50" max="150" value="100"></div>
+      <div class="field"><label>Saturation</label><input type="range" id="peSaturate" min="0" max="200" value="100"></div>
+      <div class="field"><label>Soften</label><input type="range" id="peBlur" min="0" max="10" value="0"></div>
+      <div class="row">
+        <button class="btn btn-ghost" id="peGray">Black &amp; white</button>
+        <button class="btn btn-ghost" id="peSepia">Warm tone</button>
+        <button class="btn btn-ghost" id="peClearFilters">Reset</button>
+      </div>
+
+      <h3>Transform</h3>
+      <div class="row">
+        <button class="btn btn-ghost" id="peRotate">Rotate 90°</button>
+        <button class="btn btn-ghost" id="peFlip">Flip horizontal</button>
+        <button class="btn btn-ghost" id="peCropToggle">Crop</button>
+      </div>
+
+      <h3>Add a label</h3>
+      <div class="field"><input type="text" id="peTextInput" placeholder="e.g. Confidential, Q3 Draft"></div>
+      <div class="row">
+        <input type="color" id="peTextColor" value="#14213D">
+        <input type="range" id="peTextSize" min="16" max="90" value="36" style="flex:1;">
+        <button class="btn btn-primary" id="peAddText">Add text</button>
+      </div>
+
+      <h3>Callouts &amp; icons</h3>
+      <div class="emoji-row">
+        <button data-e="✅">✅</button><button data-e="⭐">⭐</button><button data-e="📌">📌</button>
+        <button data-e="➡️">➡️</button><button data-e="⚠️">⚠️</button><button data-e="🔒">🔒</button>
+        <button data-e="💬">💬</button><button data-e="📈">📈</button><button data-e="🚩">🚩</button>
+      </div>
+
+      <h3>Freehand markup</h3>
+      <div class="row">
+        <label class="hint" style="display:flex; align-items:center; gap:6px;">
+          <input type="checkbox" id="peDrawToggle"> Draw mode
+        </label>
+        <input type="color" id="peDrawColor" value="#0F9E93">
+        <input type="range" id="peDrawSize" min="2" max="30" value="8" style="flex:1;">
+      </div>
+
+      <div class="row">
+        <button class="btn btn-ghost" id="peUndo">Undo</button>
+        <button class="btn btn-ghost" id="peClearAll">Clear markup</button>
+      </div>
+      <button class="btn btn-navy" id="peDownload" disabled>Download photo</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIDEO EDITOR ============ -->
+<section id="videoeditor" class="page" aria-labelledby="ve-h1">
+  <div class="tool-header" style="--accent:#F2A93B">
+    <div class="icon">🎬</div>
+    <h1 id="ve-h1">Video Editor</h1>
+  </div>
+  <p class="subtitle">Trim a clip, add a caption and export presentation ready video. Files download as WEBM, which plays in Chrome, Firefox, Edge and most video software.</p>
+
+  <div class="workspace">
+    <div class="canvas-card">
+      <label class="upload-btn" style="width:100%;">
+        Upload a video
+        <input type="file" id="veFileInput" accept="video/*">
+      </label>
+      <video id="veSourceVideo" style="display:none;" playsinline></video>
+      <canvas id="veCanvas" style="display:none;"></canvas>
+      <div id="vePlaybackRow" class="row" style="display:none;">
+        <button class="btn btn-ghost" id="vePlayPreview">Preview trimmed clip</button>
+        <span class="hint" id="veTimeLabel"></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Trim</h3>
+      <div class="field">
+        <label>Start: <span id="veStartLabel">0.0s</span></label>
+        <input type="range" id="veStart" min="0" max="10" step="0.1" value="0">
+      </div>
+      <div class="field">
+        <label>End: <span id="veEndLabel">0.0s</span></label>
+        <input type="range" id="veEnd" min="0" max="10" step="0.1" value="10">
+      </div>
+
+      <h3>Filter</h3>
+      <select id="veFilter">
+        <option value="none">No filter</option>
+        <option value="brightness(1.15) saturate(1.3)">Vivid</option>
+        <option value="sepia(.55) saturate(1.2)">Warm tone</option>
+        <option value="grayscale(1)">Black &amp; white</option>
+        <option value="brightness(1.05) contrast(1.15) hue-rotate(-8deg)">Cool</option>
+        <option value="brightness(1.05) saturate(1.4) hue-rotate(10deg)">Bold</option>
+      </select>
+
+      <h3>Caption</h3>
+      <div class="field"><input type="text" id="veCaptionInput" placeholder="Add a caption for accessibility"></div>
+      <div class="row">
+        <input type="color" id="veCaptionColor" value="#ffffff">
+        <select id="veCaptionPos">
+          <option value="bottom">Bottom</option>
+          <option value="top">Top</option>
+          <option value="middle">Middle</option>
+        </select>
+      </div>
+
+      <h3>Playback speed</h3>
+      <div class="field">
+        <label><span id="veSpeedLabel">1x</span></label>
+        <input type="range" id="veSpeed" min="0.5" max="2" step="0.25" value="1">
+      </div>
+
+      <button class="btn btn-primary" id="veExport" disabled>Export video</button>
+      <p class="hint" id="veStatus"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONVERTER ============ -->
+<section id="converter" class="page" aria-labelledby="cv-h1">
+  <div class="tool-header" style="--accent:#4B5567">
+    <div class="icon">🔁</div>
+    <h1 id="cv-h1">File Converter</h1>
+  </div>
+  <p class="subtitle">Convert a photo to another format, or turn a sound recording into a WAV file for transcription and archiving.</p>
+
+  <div class="workspace">
+    <div class="panel">
+      <h3>Image converter</h3>
+      <p class="hint">Converts between JPG, PNG and WEBP.</p>
+      <label class="upload-btn">
+        Upload a photo
+        <input type="file" id="cvImgInput" accept="image/*">
+      </label>
+      <div class="field">
+        <label>Save as</label>
+        <select id="cvImgFormat">
+          <option value="image/png">PNG (keeps transparent backgrounds)</option>
+          <option value="image/jpeg">JPG (smaller file size)</option>
+          <option value="image/webp">WEBP (small and sharp)</option>
+        </select>
+      </div>
+      <div class="field" id="cvQualityField">
+        <label>Quality</label>
+        <input type="range" id="cvImgQuality" min="10" max="100" value="90">
+      </div>
+      <button class="btn btn-navy" id="cvImgConvert" disabled>Convert and download</button>
+      <canvas id="cvImgCanvas" style="display:none;"></canvas>
+    </div>
+
+    <div class="panel">
+      <h3>Audio converter</h3>
+      <p class="hint">Browsers cannot encode MP3 or OGG files directly, so recordings convert to WAV instead. WAV plays in nearly every media player and editing tool.</p>
+      <label class="upload-btn">
+        Upload an audio file
+        <input type="file" id="cvAudioInput" accept="audio/*">
+      </label>
+      <button class="btn btn-navy" id="cvAudioConvert" disabled>Convert to WAV</button>
+      <p class="hint" id="cvAudioStatus"></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="brand" style="cursor:default; margin-bottom:8px;"><span class="brand-mark" aria-hidden="true">C</span> Craftdesk</div>
+      <p style="max-width:360px; margin-bottom:0;">A browser based editing suite for offices and teams. Files are processed on your device and are never uploaded anywhere.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <button onclick="showPage('bgremove')">Background Remover</button>
+      <button onclick="showPage('photoeditor')">Photo Editor</button>
+      <button onclick="showPage('videoeditor')">Video Editor</button>
+      <button onclick="showPage('converter')">File Converter</button>
+    </nav>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ---------------- shared helpers ---------------- */
+const PAGE_META={
+  home:{title:'Craftdesk — Online Photo Editor, Background Remover & Video Editor', desc:'Craftdesk is a browser based editing suite for offices and teams. Remove backgrounds, edit photos, trim videos and convert files in seconds.'},
+  bgremove:{title:'Background Remover — Craftdesk', desc:'Remove image backgrounds online for product photos, headshots and presentations. No install required.'},
+  photoeditor:{title:'Photo Editor — Craftdesk', desc:'Adjust, crop, annotate and brand your photos online with a browser based photo editor built for reports and marketing.'},
+  videoeditor:{title:'Video Editor — Craftdesk', desc:'Trim clips, add captions and export presentation ready video, right in your browser.'},
+  converter:{title:'File Converter — Craftdesk', desc:'Convert images between JPG, PNG and WEBP, and turn audio recordings into WAV files.'}
+};
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+  document.querySelectorAll('.tool-link').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+  const meta=PAGE_META[id];
+  if(meta){
+    document.title=meta.title;
+    const dm=document.querySelector('meta[name="description"]');
+    if(dm) dm.setAttribute('content', meta.desc);
+  }
+  if(history.replaceState) history.replaceState(null,'', '#'+id);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+window.addEventListener('DOMContentLoaded', ()=>{
+  const hash=(location.hash||'').replace('#','');
+  if(hash && document.getElementById(hash)) showPage(hash);
+});
+
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function downloadURL(url,name){
+  const a=document.createElement('a');
+  a.href=url; a.download=name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+function readFileAsImage(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=reject;
+    img.src=URL.createObjectURL(file);
+  });
+}
+
+/* ================= BACKGROUND REMOVER ================= */
+(function(){
+  const fileInput=document.getElementById('bgFileInput');
+  const canvas=document.getElementById('bgCanvas');
+  const ctx=canvas.getContext('2d', {willReadFrequently:true});
+  const hint=document.getElementById('bgHint');
+  const applyBtn=document.getElementById('bgApply');
+  const resetBtn=document.getElementById('bgReset');
+  const downloadBtn=document.getElementById('bgDownload');
+  const autoPickBtn=document.getElementById('bgAutoPick');
+  const toleranceInput=document.getElementById('bgTolerance');
+  const featherInput=document.getElementById('bgFeather');
+  const colorRow=document.getElementById('bgColorPreviewRow');
+  const colorSwatch=document.getElementById('bgColorSwatch');
+
+  let originalImageData=null;
+  let refColor=null;
+
+  fileInput.addEventListener('change', async (e)=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    const img=await readFileAsImage(file);
+    const maxDim=900;
+    let w=img.naturalWidth, h=img.naturalHeight;
+    if(w>maxDim || h>maxDim){
+      const scale=maxDim/Math.max(w,h);
+      w=Math.round(w*scale); h=Math.round(h*scale);
+    }
+    canvas.width=w; canvas.height=h;
+    canvas.style.display='block';
+    ctx.clearRect(0,0,w,h);
+    ctx.drawImage(img,0,0,w,h);
+    originalImageData=ctx.getImageData(0,0,w,h);
+    refColor=null;
+    colorRow.style.display='none';
+    applyBtn.disabled=true;
+    downloadBtn.disabled=true;
+    resetBtn.disabled=false;
+    hint.textContent="Tap anywhere on your photo's background to pick the color to remove.";
+    toast('Photo loaded! Now tap the background color.');
+  });
+
+  canvas.addEventListener('click',(e)=>{
+    if(!originalImageData) return;
+    const rect=canvas.getBoundingClientRect();
+    const x=Math.floor((e.clientX-rect.left)*(canvas.width/rect.width));
+    const y=Math.floor((e.clientY-rect.top)*(canvas.height/rect.height));
+    const d=ctx.getImageData(x,y,1,1).data;
+    setRefColor([d[0],d[1],d[2]]);
+  });
+
+  autoPickBtn.addEventListener('click',()=>{
+    if(!originalImageData) { toast('Add a photo first!'); return; }
+    const w=originalImageData.width, h=originalImageData.height;
+    const pts=[[0,0],[w-1,0],[0,h-1],[w-1,h-1]];
+    let r=0,g=0,b=0;
+    pts.forEach(([x,y])=>{
+      const i=(y*w+x)*4;
+      r+=originalImageData.data[i]; g+=originalImageData.data[i+1]; b+=originalImageData.data[i+2];
+    });
+    setRefColor([r/4,g/4,b/4]);
+  });
+
+  function setRefColor(rgb){
+    refColor=rgb;
+    colorRow.style.display='flex';
+    colorSwatch.style.background=`rgb(${rgb[0]|0},${rgb[1]|0},${rgb[2]|0})`;
+    applyBtn.disabled=false;
+    toast('Got it! Adjust the sliders, then hit Remove it.');
+  }
+
+  applyBtn.addEventListener('click',()=>{
+    if(!originalImageData || !refColor) return;
+    const tolerance=Number(toleranceInput.value);
+    const feather=Number(featherInput.value)+1;
+    const src=originalImageData;
+    const out=ctx.createImageData(src.width, src.height);
+    const [rr,gg,bb]=refColor;
+    for(let i=0;i<src.data.length;i+=4){
+      const r=src.data[i], g=src.data[i+1], b=src.data[i+2];
+      const dist=Math.sqrt((r-rr)**2+(g-gg)**2+(b-bb)**2);
+      out.data[i]=r; out.data[i+1]=g; out.data[i+2]=b;
+      if(dist<tolerance){
+        out.data[i+3]=0;
+      } else if(dist<tolerance+feather){
+        out.data[i+3]=Math.round(255*((dist-tolerance)/feather));
+      } else {
+        out.data[i+3]=255;
+      }
+    }
+    ctx.putImageData(out,0,0);
+    downloadBtn.disabled=false;
+    toast('Background removed! Download it or tweak the sliders and try again.');
+  });
+
+  resetBtn.addEventListener('click',()=>{
+    if(!originalImageData) return;
+    ctx.putImageData(originalImageData,0,0);
+    downloadBtn.disabled=true;
+  });
+
+  downloadBtn.addEventListener('click',()=>{
+    downloadURL(canvas.toDataURL('image/png'), 'snippy-cutout.png');
+    toast('Downloaded!');
+  });
+})();
+
+/* ================= PHOTO EDITOR ================= */
+(function(){
+  const fileInput=document.getElementById('peFileInput');
+  const canvas=document.getElementById('peCanvas');
+  const ctx=canvas.getContext('2d');
+  const downloadBtn=document.getElementById('peDownload');
+
+  let baseImg=null;      // current base raster (offscreen canvas)
+  let elements=[];       // {type:'text'|'sticker', x,y,size,color,text|emoji, rotation}
+  let strokes=[];        // {color,size,points:[{x,y}]}
+  let history=[];
+  let dragIndex=-1, dragOffset={x:0,y:0};
+  let drawing=false, currentStroke=null;
+  let cropMode=false, cropRect=null, cropStart=null;
+
+  const filters={brightness:100, contrast:100, saturate:100, blur:0, grayscale:0, sepia:0};
+
+  function filterString(){
+    return `brightness(${filters.brightness}%) contrast(${filters.contrast}%) saturate(${filters.saturate}%) blur(${filters.blur}px) grayscale(${filters.grayscale}%) sepia(${filters.sepia}%)`;
+  }
+
+  function snapshot(){
+    history.push({
+      base: cloneCanvas(baseImg),
+      elements: JSON.parse(JSON.stringify(elements)),
+      strokes: JSON.parse(JSON.stringify(strokes)),
+      filters: {...filters}
+    });
+    if(history.length>25) history.shift();
+  }
+  function cloneCanvas(src){
+    const c=document.createElement('canvas');
+    c.width=src.width; c.height=src.height;
+    c.getContext('2d').drawImage(src,0,0);
+    return c;
+  }
+
+  function render(){
+    canvas.width=baseImg.width; canvas.height=baseImg.height;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.filter=filterString();
+    ctx.drawImage(baseImg,0,0);
+    ctx.filter='none';
+    strokes.forEach(s=>{
+      ctx.strokeStyle=s.color; ctx.lineWidth=s.size; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.beginPath();
+      s.points.forEach((p,i)=> i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+      ctx.stroke();
+    });
+    elements.forEach(el=>{
+      ctx.save();
+      ctx.translate(el.x, el.y);
+      if(el.type==='text'){
+        ctx.font=`800 ${el.size}px 'Baloo 2', sans-serif`;
+        ctx.fillStyle=el.color;
+        ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(el.text, 0, 0);
+      } else if(el.type==='sticker'){
+        ctx.font=`${el.size}px sans-serif`;
+        ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(el.emoji, 0, 0);
+      }
+      ctx.restore();
+    });
+    if(cropMode && cropRect){
+      ctx.save();
+      ctx.fillStyle='rgba(43,33,64,0.35)';
+      ctx.fillRect(0,0,canvas.width,cropRect.y);
+      ctx.fillRect(0,cropRect.y+cropRect.h,canvas.width,canvas.height-cropRect.y-cropRect.h);
+      ctx.fillRect(0,cropRect.y,cropRect.x,cropRect.h);
+      ctx.fillRect(cropRect.x+cropRect.w,cropRect.y,canvas.width-cropRect.x-cropRect.w,cropRect.h);
+      ctx.strokeStyle='#fff'; ctx.lineWidth=2;
+      ctx.strokeRect(cropRect.x,cropRect.y,cropRect.w,cropRect.h);
+      ctx.restore();
+    }
+  }
+
+  fileInput.addEventListener('change', async (e)=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    const img=await readFileAsImage(file);
+    const maxDim=1100;
+    let w=img.naturalWidth, h=img.naturalHeight;
+    if(w>maxDim||h>maxDim){ const s=maxDim/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s); }
+    const off=document.createElement('canvas'); off.width=w; off.height=h;
+    off.getContext('2d').drawImage(img,0,0,w,h);
+    baseImg=off;
+    elements=[]; strokes=[]; history=[];
+    Object.assign(filters,{brightness:100,contrast:100,saturate:100,blur:0,grayscale:0,sepia:0});
+    canvas.style.display='block';
+    render();
+    downloadBtn.disabled=false;
+    toast('Photo loaded! Try a filter or add a sticker.');
+  });
+
+  ['peBrightness','peContrast','peSaturate','peBlur'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', (e)=>{
+      if(!baseImg) return;
+      const map={peBrightness:'brightness',peContrast:'contrast',peSaturate:'saturate',peBlur:'blur'};
+      filters[map[id]]=Number(e.target.value);
+      render();
+    });
+  });
+  document.getElementById('peGray').addEventListener('click',()=>{ if(!baseImg)return; snapshot(); filters.grayscale = filters.grayscale? 0:100; render(); });
+  document.getElementById('peSepia').addEventListener('click',()=>{ if(!baseImg)return; snapshot(); filters.sepia = filters.sepia? 0:70; render(); });
+  document.getElementById('peClearFilters').addEventListener('click',()=>{
+    if(!baseImg) return; snapshot();
+    Object.assign(filters,{brightness:100,contrast:100,saturate:100,blur:0,grayscale:0,sepia:0});
+    ['peBrightness','peContrast','peSaturate','peBlur'].forEach(id=>document.getElementById(id).value=100);
+    document.getElementById('peBlur').value=0;
+    render();
+  });
+
+  document.getElementById('peRotate').addEventListener('click',()=>{
+    if(!baseImg) return; snapshot();
+    const off=document.createElement('canvas');
+    off.width=baseImg.height; off.height=baseImg.width;
+    const c=off.getContext('2d');
+    c.translate(off.width/2, off.height/2);
+    c.rotate(Math.PI/2);
+    c.drawImage(baseImg, -baseImg.width/2, -baseImg.height/2);
+    baseImg=off; elements=[]; strokes=[];
+    render();
+  });
+  document.getElementById('peFlip').addEventListener('click',()=>{
+    if(!baseImg) return; snapshot();
+    const off=document.createElement('canvas');
+    off.width=baseImg.width; off.height=baseImg.height;
+    const c=off.getContext('2d');
+    c.translate(off.width,0); c.scale(-1,1);
+    c.drawImage(baseImg,0,0);
+    baseImg=off; elements=[]; strokes=[];
+    render();
+  });
+
+  document.getElementById('peCropToggle').addEventListener('click',()=>{
+    if(!baseImg) return;
+    cropMode=!cropMode;
+    cropRect=null;
+    toast(cropMode? 'Drag on the photo to choose a crop area, then tap Crop again.' : 'Crop cancelled.');
+    if(!cropMode) render();
+  });
+
+  document.getElementById('peAddText').addEventListener('click',()=>{
+    if(!baseImg) return;
+    const text=document.getElementById('peTextInput').value.trim();
+    if(!text){ toast('Type something first!'); return; }
+    snapshot();
+    elements.push({
+      type:'text', text,
+      x:canvas.width/2, y:canvas.height/2,
+      size:Number(document.getElementById('peTextSize').value),
+      color:document.getElementById('peTextColor').value
+    });
+    render();
+  });
+
+  document.querySelectorAll('.emoji-row button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      if(!baseImg){ toast('Add a photo first!'); return; }
+      snapshot();
+      elements.push({type:'sticker', emoji:b.dataset.e, x:canvas.width/2, y:canvas.height/2, size:64});
+      render();
+    });
+  });
+
+  function canvasPoint(e){
+    const rect=canvas.getBoundingClientRect();
+    const cx=(e.touches? e.touches[0].clientX : e.clientX)-rect.left;
+    const cy=(e.touches? e.touches[0].clientY : e.clientY)-rect.top;
+    return {x:cx*(canvas.width/rect.width), y:cy*(canvas.height/rect.height)};
+  }
+
+  canvas.addEventListener('mousedown', onDown);
+  canvas.addEventListener('touchstart', onDown, {passive:true});
+  canvas.addEventListener('mousemove', onMove);
+  canvas.addEventListener('touchmove', onMove, {passive:true});
+  window.addEventListener('mouseup', onUp);
+  window.addEventListener('touchend', onUp);
+
+  function onDown(e){
+    if(!baseImg) return;
+    const p=canvasPoint(e);
+    if(cropMode){
+      cropStart=p; cropRect={x:p.x,y:p.y,w:0,h:0};
+      return;
+    }
+    if(document.getElementById('peDrawToggle').checked){
+      snapshot();
+      drawing=true;
+      currentStroke={color:document.getElementById('peDrawColor').value, size:Number(document.getElementById('peDrawSize').value), points:[p]};
+      strokes.push(currentStroke);
+      return;
+    }
+    for(let i=elements.length-1;i>=0;i--){
+      const el=elements[i];
+      const r=(el.size||40);
+      if(Math.abs(p.x-el.x)<r && Math.abs(p.y-el.y)<r){
+        dragIndex=i; dragOffset={x:p.x-el.x, y:p.y-el.y};
+        canvas.style.cursor='grabbing';
+        break;
+      }
+    }
+  }
+  function onMove(e){
+    if(!baseImg) return;
+    const p=canvasPoint(e);
+    if(cropMode && cropStart){
+      cropRect={x:Math.min(cropStart.x,p.x), y:Math.min(cropStart.y,p.y), w:Math.abs(p.x-cropStart.x), h:Math.abs(p.y-cropStart.y)};
+      render();
+      return;
+    }
+    if(drawing && currentStroke){
+      currentStroke.points.push(p);
+      render();
+      return;
+    }
+    if(dragIndex>=0){
+      elements[dragIndex].x=p.x-dragOffset.x;
+      elements[dragIndex].y=p.y-dragOffset.y;
+      render();
+    }
+  }
+  function onUp(){
+    drawing=false; currentStroke=null; dragIndex=-1;
+    canvas.style.cursor='grab';
+    if(cropMode && cropRect && cropRect.w>10 && cropRect.h>10){
+      snapshot();
+      const off=document.createElement('canvas');
+      off.width=Math.round(cropRect.w); off.height=Math.round(cropRect.h);
+      off.getContext('2d').drawImage(baseImg, cropRect.x, cropRect.y, cropRect.w, cropRect.h, 0,0, cropRect.w, cropRect.h);
+      baseImg=off; elements=[]; strokes=[];
+      cropMode=false; cropRect=null;
+      render();
+      toast('Cropped!');
+    }
+  }
+
+  document.getElementById('peUndo').addEventListener('click',()=>{
+    if(history.length===0){ toast('Nothing to undo yet.'); return; }
+    const last=history.pop();
+    baseImg=last.base; elements=last.elements; strokes=last.strokes; Object.assign(filters,last.filters);
+    render();
+  });
+  document.getElementById('peClearAll').addEventListener('click',()=>{
+    if(!baseImg) return;
+    snapshot();
+    elements=[]; strokes=[];
+    render();
+  });
+
+  downloadBtn.addEventListener('click',()=>{
+    if(!baseImg) return;
+    downloadURL(canvas.toDataURL('image/png'), 'snippy-photo.png');
+    toast('Downloaded!');
+  });
+})();
+
+/* ================= VIDEO EDITOR ================= */
+(function(){
+  const fileInput=document.getElementById('veFileInput');
+  const video=document.getElementById('veSourceVideo');
+  const canvas=document.getElementById('veCanvas');
+  const ctx=canvas.getContext('2d');
+  const startInput=document.getElementById('veStart');
+  const endInput=document.getElementById('veEnd');
+  const startLabel=document.getElementById('veStartLabel');
+  const endLabel=document.getElementById('veEndLabel');
+  const filterSelect=document.getElementById('veFilter');
+  const captionInput=document.getElementById('veCaptionInput');
+  const captionColor=document.getElementById('veCaptionColor');
+  const captionPos=document.getElementById('veCaptionPos');
+  const speedInput=document.getElementById('veSpeed');
+  const speedLabel=document.getElementById('veSpeedLabel');
+  const exportBtn=document.getElementById('veExport');
+  const status=document.getElementById('veStatus');
+  const playPreviewBtn=document.getElementById('vePlayPreview');
+  const playbackRow=document.getElementById('vePlaybackRow');
+  const timeLabel=document.getElementById('veTimeLabel');
+
+  let drawLoopId=null;
+
+  fileInput.addEventListener('change', (e)=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    video.src=URL.createObjectURL(file);
+    video.muted=false;
+    video.addEventListener('loadedmetadata', function onMeta(){
+      video.removeEventListener('loadedmetadata', onMeta);
+      canvas.width=video.videoWidth; canvas.height=video.videoHeight;
+      canvas.style.display='block';
+      startInput.max=video.duration.toFixed(1); startInput.value=0;
+      endInput.max=video.duration.toFixed(1); endInput.value=video.duration.toFixed(1);
+      updateLabels();
+      exportBtn.disabled=false;
+      playbackRow.style.display='flex';
+      video.currentTime=0;
+      drawFrame();
+      toast('Video loaded! Set your trim points and pick a filter.');
+    },{once:true});
+  });
+
+  function updateLabels(){
+    startLabel.textContent=Number(startInput.value).toFixed(1)+'s';
+    endLabel.textContent=Number(endInput.value).toFixed(1)+'s';
+  }
+  startInput.addEventListener('input',()=>{
+    if(Number(startInput.value)>=Number(endInput.value)) startInput.value=Math.max(0,Number(endInput.value)-0.2);
+    updateLabels(); video.currentTime=Number(startInput.value); drawFrame();
+  });
+  endInput.addEventListener('input',()=>{
+    if(Number(endInput.value)<=Number(startInput.value)) endInput.value=Number(startInput.value)+0.2;
+    updateLabels();
+  });
+  speedInput.addEventListener('input',()=> speedLabel.textContent=speedInput.value+'x');
+  filterSelect.addEventListener('change', drawFrame);
+  captionInput.addEventListener('input', drawFrame);
+
+  function drawFrame(){
+    if(!video.videoWidth) return;
+    ctx.filter = filterSelect.value==='none' ? 'none' : filterSelect.value;
+    ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    ctx.filter='none';
+    const cap=captionInput.value.trim();
+    if(cap){
+      const fontSize=Math.max(22, canvas.width*0.045);
+      ctx.font=`800 ${fontSize}px 'Baloo 2', sans-serif`;
+      ctx.textAlign='center';
+      ctx.fillStyle=captionColor.value;
+      ctx.strokeStyle='rgba(0,0,0,0.55)';
+      ctx.lineWidth=fontSize*0.12;
+      let y;
+      if(captionPos.value==='top') y=fontSize*1.4;
+      else if(captionPos.value==='middle') y=canvas.height/2;
+      else y=canvas.height-fontSize*0.9;
+      ctx.strokeText(cap, canvas.width/2, y);
+      ctx.fillText(cap, canvas.width/2, y);
+    }
+  }
+
+  function loop(){
+    drawFrame();
+    timeLabel.textContent = video.currentTime.toFixed(1)+'s / '+Number(endInput.value).toFixed(1)+'s';
+    if(video.currentTime>=Number(endInput.value) || video.paused){
+      cancelAnimationFrame(drawLoopId);
+      return;
+    }
+    drawLoopId=requestAnimationFrame(loop);
+  }
+
+  playPreviewBtn.addEventListener('click', async ()=>{
+    video.currentTime=Number(startInput.value);
+    video.playbackRate=Number(speedInput.value);
+    await video.play();
+    loop();
+  });
+
+  exportBtn.addEventListener('click', async ()=>{
+    if(!video.videoWidth) return;
+    if(!('MediaRecorder' in window)){
+      toast("Sorry, this browser can't save videos. Try Chrome or Edge.");
+      return;
+    }
+    exportBtn.disabled=true;
+    status.textContent='Recording your video…';
+    video.pause();
+    video.currentTime=Number(startInput.value);
+    video.playbackRate=Number(speedInput.value);
+
+    await new Promise(res=>{ video.onseeked=res; });
+
+    const canvasStream=canvas.captureStream(30);
+    let mixedStream=canvasStream;
+    try{
+      const vidStream=video.captureStream ? video.captureStream() : (video.mozCaptureStream ? video.mozCaptureStream() : null);
+      if(vidStream){
+        const audioTracks=vidStream.getAudioTracks();
+        if(audioTracks.length){
+          mixedStream=new MediaStream([...canvasStream.getVideoTracks(), ...audioTracks]);
+        }
+      }
+    }catch(err){ /* audio capture not supported, continue with video only */ }
+
+    let mimeType='video/webm;codecs=vp9,opus';
+    if(!MediaRecorder.isTypeSupported(mimeType)) mimeType='video/webm';
+    const recorder=new MediaRecorder(mixedStream, {mimeType});
+    const chunks=[];
+    recorder.ondataavailable=(e)=>{ if(e.data.size>0) chunks.push(e.data); };
+    recorder.onstop=()=>{
+      const blob=new Blob(chunks, {type:'video/webm'});
+      downloadURL(URL.createObjectURL(blob), 'snippy-video.webm');
+      status.textContent='Done! Your video downloaded as a WEBM file.';
+      exportBtn.disabled=false;
+      toast('Video saved!');
+    };
+    recorder.start();
+    await video.play();
+
+    function tick(){
+      drawFrame();
+      if(video.currentTime>=Number(endInput.value) || video.paused || video.ended){
+        recorder.stop();
+        video.pause();
+        return;
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+  });
+})();
+
+/* ================= CONVERTER: IMAGE ================= */
+(function(){
+  const fileInput=document.getElementById('cvImgInput');
+  const canvas=document.getElementById('cvImgCanvas');
+  const ctx=canvas.getContext('2d');
+  const formatSelect=document.getElementById('cvImgFormat');
+  const qualityField=document.getElementById('cvQualityField');
+  const qualityInput=document.getElementById('cvImgQuality');
+  const convertBtn=document.getElementById('cvImgConvert');
+  let loadedImg=null, sourceExt='image';
+
+  function syncQualityVisibility(){
+    qualityField.style.display = formatSelect.value==='image/png' ? 'none' : 'flex';
+  }
+  formatSelect.addEventListener('change', syncQualityVisibility);
+  syncQualityVisibility();
+
+  fileInput.addEventListener('change', async (e)=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    loadedImg=await readFileAsImage(file);
+    sourceExt=(file.name.split('.').pop()||'image');
+    convertBtn.disabled=false;
+    toast('Picture loaded! Choose a format and convert.');
+  });
+
+  convertBtn.addEventListener('click',()=>{
+    if(!loadedImg) return;
+    canvas.width=loadedImg.naturalWidth; canvas.height=loadedImg.naturalHeight;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(formatSelect.value==='image/jpeg'){
+      ctx.fillStyle='#ffffff';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+    ctx.drawImage(loadedImg,0,0);
+    const quality=Number(qualityInput.value)/100;
+    const ext = formatSelect.value==='image/png' ? 'png' : formatSelect.value==='image/jpeg' ? 'jpg' : 'webp';
+    canvas.toBlob((blob)=>{
+      if(!blob){ toast("This browser can't make that file type."); return; }
+      downloadURL(URL.createObjectURL(blob), `snippy-converted.${ext}`);
+      toast('Converted and downloaded!');
+    }, formatSelect.value, quality);
+  });
+})();
+
+/* ================= CONVERTER: AUDIO ================= */
+(function(){
+  const fileInput=document.getElementById('cvAudioInput');
+  const convertBtn=document.getElementById('cvAudioConvert');
+  const status=document.getElementById('cvAudioStatus');
+  let audioFile=null;
+
+  fileInput.addEventListener('change',(e)=>{
+    audioFile=e.target.files[0];
+    convertBtn.disabled=!audioFile;
+    status.textContent='';
+  });
+
+  function audioBufferToWav(buffer){
+    const numChannels=buffer.numberOfChannels;
+    const sampleRate=buffer.sampleRate;
+    const format=1, bitDepth=16;
+    const bytesPerSample=bitDepth/8;
+    const blockAlign=numChannels*bytesPerSample;
+    const dataLength=buffer.length*blockAlign;
+    const bufferLength=44+dataLength;
+    const arrBuf=new ArrayBuffer(bufferLength);
+    const view=new DataView(arrBuf);
+
+    function writeStr(offset,str){ for(let i=0;i<str.length;i++) view.setUint8(offset+i, str.charCodeAt(i)); }
+
+    writeStr(0,'RIFF'); view.setUint32(4, 36+dataLength, true); writeStr(8,'WAVE');
+    writeStr(12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,format,true);
+    view.setUint16(22,numChannels,true); view.setUint32(24,sampleRate,true);
+    view.setUint32(28, sampleRate*blockAlign, true); view.setUint16(32, blockAlign, true);
+    view.setUint16(34, bitDepth, true);
+    writeStr(36,'data'); view.setUint32(40, dataLength, true);
+
+    const channels=[];
+    for(let i=0;i<numChannels;i++) channels.push(buffer.getChannelData(i));
+    let offset=44;
+    for(let i=0;i<buffer.length;i++){
+      for(let ch=0; ch<numChannels; ch++){
+        let sample=Math.max(-1, Math.min(1, channels[ch][i]));
+        sample = sample<0 ? sample*0x8000 : sample*0x7FFF;
+        view.setInt16(offset, sample, true);
+        offset+=2;
+      }
+    }
+    return new Blob([arrBuf], {type:'audio/wav'});
+  }
+
+  convertBtn.addEventListener('click', async ()=>{
+    if(!audioFile) return;
+    status.textContent='Converting…';
+    convertBtn.disabled=true;
+    try{
+      const arrayBuffer=await audioFile.arrayBuffer();
+      const AudioCtx=window.AudioContext||window.webkitAudioContext;
+      const audioCtx=new AudioCtx();
+      const decoded=await audioCtx.decodeAudioData(arrayBuffer);
+      const blob=audioBufferToWav(decoded);
+      downloadURL(URL.createObjectURL(blob), 'snippy-audio.wav');
+      status.textContent='Done! Your WAV file downloaded.';
+      toast('Audio converted!');
+    }catch(err){
+      status.textContent="Sorry, this file couldn't be converted.";
+    }
+    convertBtn.disabled=false;
+  });
+})();
+</script>
+</body>
+</html>
